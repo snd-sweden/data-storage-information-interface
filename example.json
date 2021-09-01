@@ -1,0 +1,36 @@
+{
+  "publisher": "Forskningsprojektet @ Example EDU",
+  "creator": ["kalkyl@example.edu"],
+  "identifier": "3f2a775e-f33a-461e-a49c-b9450c7da4",
+  "rightsHolder": "example.edu",
+  "dataObjects": [
+    {
+      "identifier": "9e3bb2e3-443c-4763-97f3-a25eb9c8639d",
+      "name": "projektet2021/data/readme.pdf",
+      "dateCreated": "2020-09-15T07:16:46.329Z",
+      "dateModified": "2021-01-15T07:20:46.978Z",
+      "contentSize": 123,
+      "contentUrl": "https://s3.example.com/projektet2021/data/readme.pdf",
+      "encodingFormat": "application/pdf",
+      "immutable": false,
+      "checksum": [{
+        "checksumValue": "39ae639d33cea4a287198bbcdca5e6856e6607a7c91dc4c54348031be2ad4c51",
+        "checksumAlgorithm": "checksum_algorithm_sha256"
+      }]
+    },
+    {
+      "identifier": "eae959d3-a17d-42af-9510-44624213efca",
+      "name": "projektet2021/data/data.csv",
+      "dateCreated": "2020-09-18T07:16:46.329Z",
+      "dateModified": "2020-09-18T07:16:46.329Z",
+      "contentSize": 76912,
+      "contentUrl": "",
+      "encodingFormat": "text/csv",
+      "immutable": true,
+      "checksum": [{
+        "checksumValue": "45ef90d63b90328915a561a1c88b2945",
+        "checksumAlgorithm": "checksum_algorithm_md5"
+      }]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/snd-sweden/data-storage-information-interface/schema.json",
+  "title": "Research data manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "identifier": {
+      "description": "Unique identifier for the storage manifest, http://purl.org/dc/terms/identifier",
+      "type": "string"
+    },
+    "deleted": {
+      "description": "Indicate that the manifest should be deleted.",
+      "const": true
+    },
+    "publisher": {
+      "description": "An entity responsible for making the resource available. http://purl.org/dc/terms/publisher",
+      "type": "string"
+    },
+    "creator": {
+      "description": "An entity responsible for making the resource, http://purl.org/dc/terms/creator",
+      "type": "array",
+      "items": {
+        "description": "eppn (eduPersonPrincipalName) from SWAMID",
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "rightsHolder": {
+      "description": "A organization owning or managing rights over the resource. http://purl.org/dc/terms/rightsHolder",
+      "type": "string"
+    },
+    "dataObjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "description": "Unique identifiers for the data object, https://schema.org/identifier",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the object, https://schema.org/name",
+            "type": "string"
+          },
+          "dateCreated": {
+            "description": "Date of creation, https://schema.org/dateCreated",
+            "format": "date-time",
+            "type": "string"
+          },
+          "dateModified": {
+            "description": "Date when object was most recently modified, https://schema.org/dateModified",
+            "format": "date-time",
+            "type": "string"
+          },
+          "contentSize": {
+            "description": "Object size in bytes, https://schema.org/contentSize",
+            "type": "integer"
+          },
+          "contentUrl": {
+            "description": "URL for the content of the object,https://schema.org/contentUrl",
+            "type": "string"
+          },
+          "encodingFormat": {
+            "description": "Media Type, https://schema.org/encodingFormat",
+            "type": "string"
+          },
+          "immutable": {
+            "description": "The object is read-only",
+            "type": "boolean"
+          },
+          "checksum": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "checksumValue": {
+                  "description": "Value of the checksum, http://spdx.org/rdf/terms#checksumValue",
+                  "type": "string"
+                },
+                "checksumAlgorithm": {
+                  "description": "Algorithm used for checksum, http://spdx.org/rdf/terms#ChecksumAlgorithm",
+                  "type": "string",
+                  "enum": [
+                    "checksum_algorithm_md5",
+                    "checksum_algorithm_sha1",
+                    "checksum_algorithm_sha224",
+                    "checksum_algorithm_sha256",
+                    "checksum_algorithm_sha384",
+                    "checksum_algorithm_sha512"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "identifier",
+          "name",
+          "checksum"
+        ]
+      }
+    }
+  },
+  "required": [
+    "identifier",
+    "creator",
+    "rightsHolder"
+  ]
+}

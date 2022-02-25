@@ -4,7 +4,7 @@
     {
       "@type": "CreativeWork",
       "@id": "ro-crate-metadata.json",
-      "identifier": "uuid",
+      "identifier": "04679b46-964c-11ec-b909-0242ac120002",
       "publisher": {
         "@type": "Organization",
         "@id": "https://ror.org/01tm6cn81",
@@ -58,8 +58,8 @@
       "contentSize": 4242,
       "sha256": "a15a1f802cd5279d2f45f2369d9245b59e88ece945a138efd0a8a5509ddda8cd",
       "encodingFormat": "text/csv",
-      "dateCreated": "2022-02-21",
-      "dateModified": "2022-02-22",
+      "dateCreated": "2022-02-21T11:45:20",
+      "dateModified": "2022-02-22T15:50:30",
       "url": "https://example.org/record/3541888/data.csv"
     },
     {
@@ -68,8 +68,8 @@
       "contentSize": 42,
       "sha256": "59be94db9df2768d5697969ee6c082830816caaa9c2be5c642474a653fd2fbee",
       "encodingFormat": "text/plain",
-      "dateCreated": "2022-02-20",
-      "dateModified": "2022-02-22",
+      "dateCreated": "2022-02-20T10:25:30",
+      "dateModified": "2022-02-22T13:15:22",
       "url": "https://example.org/record/3541888/docs/info.txt"
     }
   ]

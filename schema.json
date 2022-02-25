@@ -1,10 +1,105 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/snd-sweden/data-storage-information-interface/schema.json",
-  "title": "Research data manifest",
+  "title": "Research data manifest via ro-crate 1.1",
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    
+    "@context": {
+      "type": "string",
+      "enum": ["https://w3id.org/ro/crate/1.1/context"],
+      "default": "https://w3id.org/ro/crate/1.1/context"
+    },
+    "@graph": {
+      "type": "array",
+      "description": "Used to express a rdf graph.",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/manifest"
+          },
+          {
+            "$ref": "#/$defs/dataset"
+          },
+          {
+            "$ref": "#/$defs/file"
+          }
+        ]
+      }
+    }
+  },
+  "required": ["@context", "@graph"],
+  "$defs": {
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["CreativeWork"]
+        },
+        "identifier":{
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": ["@id", "@type", "identifier"]
+    },
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Dataset"]
+        }
+      },
+      "required": ["@id", "@type"]
+    },
+    "file": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Relative file path from dataset root"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["File"]
+        },
+        "contentSize": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "description": "Checksum for the file using SHA-256"
+        },
+        "encodingFormat": {
+          "type": "string",
+          "description": "Media Type, https://schema.org/encodingFormat"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of creation, https://schema.org/dateCreated"
+        },
+        "dateModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date when object was most recently modified, https://schema.org/dateModified",
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for the content of the object, https://schema.org/url"
+        }
+      },
+      "required": ["@id", "@type"]
+    }
   }
 }

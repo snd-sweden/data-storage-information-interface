@@ -91,7 +91,7 @@
         "dateModified": {
           "type": "string",
           "format": "date-time",
-          "description": "Date when object was most recently modified, https://schema.org/dateModified",
+          "description": "Date when object was most recently modified, https://schema.org/dateModified"
         },
         "url": {
           "type": "string",

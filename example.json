@@ -55,7 +55,7 @@
     {
       "@id": "data.csv",
       "@type": "File",
-      "contentSize": "4242",
+      "contentSize": 4242,
       "sha256": "a15a1f802cd5279d2f45f2369d9245b59e88ece945a138efd0a8a5509ddda8cd",
       "encodingFormat": "text/csv",
       "dateCreated": "2022-02-21",
@@ -65,7 +65,7 @@
     {
       "@id": "docs/info.txt",
       "@type": "File",
-      "contentSize": "42",
+      "contentSize": 42,
       "sha256": "59be94db9df2768d5697969ee6c082830816caaa9c2be5c642474a653fd2fbee",
       "encodingFormat": "text/plain",
       "dateCreated": "2022-02-20",

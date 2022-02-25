@@ -1,36 +1,76 @@
-{
-  "publisher": "Forskningsprojektet @ Example EDU",
-  "creator": ["kalkyl@example.edu"],
-  "identifier": "3f2a775e-f33a-461e-a49c-b9450c7da4",
-  "rightsHolder": "example.edu",
-  "dataObjects": [
+{ 
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
     {
-      "identifier": "9e3bb2e3-443c-4763-97f3-a25eb9c8639d",
-      "name": "projektet2021/data/readme.pdf",
-      "dateCreated": "2020-09-15T07:16:46.329Z",
-      "dateModified": "2021-01-15T07:20:46.978Z",
-      "contentSize": 123,
-      "contentUrl": "https://s3.example.com/projektet2021/data/readme.pdf",
-      "encodingFormat": "application/pdf",
-      "immutable": false,
-      "checksum": [{
-        "checksumValue": "39ae639d33cea4a287198bbcdca5e6856e6607a7c91dc4c54348031be2ad4c51",
-        "checksumAlgorithm": "checksum_algorithm_sha256"
-      }]
+      "@type": "CreativeWork",
+      "@id": "ro-crate-metadata.json",
+      "identifier": "uuid",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://ror.org/01tm6cn81",
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "propertyID": "domian",
+            "propertyValue": "gu.se"
+          }
+        ]
+      },
+      "creator":[
+        {
+          "@type": "Person",
+          "@id": "https://orcid.org/0000-0003-4908-2169",
+          "email": "example@gu.se",
+          "identifier": [
+            {
+              "@type": "PropertyValue",
+              "propertyID": "eppn",
+              "propertyValue": "xkalle@gu.se"
+            }
+          ]
+        }
+      ],
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      },
+      "description": "RO-Crate Metadata File Descriptor (this file)"
     },
     {
-      "identifier": "eae959d3-a17d-42af-9510-44624213efca",
-      "name": "projektet2021/data/data.csv",
-      "dateCreated": "2020-09-18T07:16:46.329Z",
-      "dateModified": "2020-09-18T07:16:46.329Z",
-      "contentSize": 76912,
-      "contentUrl": "",
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "Example RO-Crate",
+      "description": "The RO-Crate Root Data Entity",
+      "hasPart": [
+        {
+          "@id": "data.csv"
+        },
+        {
+          "@id": "docs/info.txt"
+        }
+      ]
+    },
+    {
+      "@id": "data.csv",
+      "@type": "File",
+      "contentSize": "4242",
+      "sha256": "a15a1f802cd5279d2f45f2369d9245b59e88ece945a138efd0a8a5509ddda8cd",
       "encodingFormat": "text/csv",
-      "immutable": true,
-      "checksum": [{
-        "checksumValue": "45ef90d63b90328915a561a1c88b2945",
-        "checksumAlgorithm": "checksum_algorithm_md5"
-      }]
+      "dateCreated": "2022-02-21",
+      "dateModified": "2022-02-22",
+      "url": "https://example.org/record/3541888/data.csv"
+    },
+    {
+      "@id": "docs/info.txt",
+      "@type": "File",
+      "contentSize": "42",
+      "sha256": "59be94db9df2768d5697969ee6c082830816caaa9c2be5c642474a653fd2fbee",
+      "encodingFormat": "text/plain",
+      "dateCreated": "2022-02-20",
+      "dateModified": "2022-02-22",
+      "url": "https://example.org/record/3541888/docs/info.txt"
     }
   ]
 }

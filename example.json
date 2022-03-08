@@ -1,126 +1,76 @@
-using System;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using HeyRed.Mime;
-
-if(Environment.GetCommandLineArgs().Length == 1){
-    Console.WriteLine("Provide argument for directory");
-    Environment.Exit(0);
-}
-
-string directory = Environment.GetCommandLineArgs()[1];
-
-directory = Path.GetFullPath(directory);
-
-if (!Directory.Exists(directory))
-{
-    Console.WriteLine("The directory specified could not be found.");
-    Environment.Exit(0);
-}
-
-var graph = new List<JsonNode>();
-
-graph.Add(new JsonObject {
-    ["@type"] = "CreativeWork",
-    ["@id"] = "ro-crate-metadata.json",
-    ["conformsTo"] = new JsonObject {
-        ["@id"] = "https://w3id.org/ro/crate/1.1"
-    },
-    ["about"] = new JsonObject {
-        ["@id"] = "./"
-    },
-    ["publisher"] = new JsonObject {
-        ["@type"] = "Organization",
-        ["@id"] = "https://ror.org/01tm6cn81", //optional: from config/external source
-        ["identifier"] = new JsonArray(
-            new JsonObject {
-                ["@type"] = "PropertyValue",
-                ["propertyID"] = "domain",
-                ["propertyValue"] = "gu.se" //required: from config/external source
-            }
-        )
-    },
-    ["creator"] = new JsonArray(
-        new JsonObject {
-            ["@type"] = "Person",
-            ["@id"] = "https://orcid.org/0000-0003-4908-2169", //optional: from config/external source
-            ["email"] = "example@gu.se",
-            ["identifier"] = new JsonArray(
-                new JsonObject {
-                    ["@type"] = "PropertyValue",
-                    ["propertyID"] = "eppn",
-                    ["propertyValue"] = "xkalle@gu.se" //required: from config/external source
-                }
-            )
-        }
-    )
-});
-
-var dir = new DirectoryInfo(directory);
-FileInfo[] files = dir.GetFiles("*", SearchOption.AllDirectories);
-
-var fileIds = new List<JsonNode>();
-foreach (FileInfo fInfo in files){
-    fileIds.Add(new JsonObject{
-        ["@id"] = fInfo.FullName.Replace(directory, "").Replace("\\","/")
-    });
-}
-
-graph.Add(new JsonObject {
-    ["@type"] = "Dataset",
-    ["@id"] = "./",
-    ["hasPart"] = new JsonArray(fileIds.ToArray())
-});
-
-using (SHA256 sha256 = SHA256.Create())
-{
-    foreach (FileInfo fInfo in files)
+{ 
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
     {
-        using (FileStream fileStream = fInfo.Open(FileMode.Open))
+      "@type": "CreativeWork",
+      "@id": "ro-crate-metadata.json",
+      "identifier": "04679b46-964c-11ec-b909-0242ac120002",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://ror.org/01tm6cn81",
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "propertyID": "domian",
+            "propertyValue": "gu.se"
+          }
+        ]
+      },
+      "creator":[
         {
-            try
+          "@type": "Person",
+          "@id": "https://orcid.org/0000-0003-4908-2169",
+          "email": "example@gu.se",
+          "identifier": [
             {
-                fileStream.Position = 0;
-                byte[] hashValue = sha256.ComputeHash(fileStream);
-
-                graph.Add(new JsonObject {
-                    ["@type"] = "File",
-                    ["@id"] = fInfo.FullName.Replace(directory, "").Replace("\\","/"),
-                    ["sha256"] = byteToString(hashValue),
-                    ["contentSize"] = fInfo.Length,
-                    ["encodingFormat"] = MimeTypesMap.GetMimeType(fInfo.Name),
-                    ["dateCreated"] = File.GetCreationTime(fInfo.FullName).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.sssZ"),
-                    ["dateModified"] = File.GetLastWriteTime(fInfo.FullName).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.sssZ"),
-                });
+              "@type": "PropertyValue",
+              "propertyID": "eppn",
+              "propertyValue": "xkalle@gu.se"
             }
-            catch (IOException e)
-            {
-                Console.WriteLine($"I/O Exception: {e.Message}");
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                Console.WriteLine($"Access Exception: {e.Message}");
-            }
+          ]
         }
-    }
-}
-
-var roCrateJson = new JsonObject {
-    ["@context"] = "https://w3id.org/ro/crate/1.1/context",
-    ["@graph"] = new JsonArray(graph.ToArray())
-};
-
-Console.Write(roCrateJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
-
-string byteToString(byte[] array)
-{
-    string result = "";
-    for (int i = 0; i < array.Length; i++)
+      ],
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      },
+      "description": "RO-Crate Metadata File Descriptor (this file)"
+    },
     {
-        result += $"{array[i]:X2}";
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "Example RO-Crate",
+      "description": "The RO-Crate Root Data Entity",
+      "hasPart": [
+        {
+          "@id": "data.csv"
+        },
+        {
+          "@id": "docs/info.txt"
+        }
+      ]
+    },
+    {
+      "@id": "data.csv",
+      "@type": "File",
+      "contentSize": 4242,
+      "sha256": "a15a1f802cd5279d2f45f2369d9245b59e88ece945a138efd0a8a5509ddda8cd",
+      "encodingFormat": "text/csv",
+      "dateCreated": "2022-02-21T11:45:20",
+      "dateModified": "2022-02-22T15:50:30",
+      "url": "https://example.org/record/3541888/data.csv"
+    },
+    {
+      "@id": "docs/info.txt",
+      "@type": "File",
+      "contentSize": 42,
+      "sha256": "59be94db9df2768d5697969ee6c082830816caaa9c2be5c642474a653fd2fbee",
+      "encodingFormat": "text/plain",
+      "dateCreated": "2022-02-20T10:25:30",
+      "dateModified": "2022-02-22T13:15:22",
+      "url": "https://example.org/record/3541888/docs/info.txt"
     }
-    return result.ToLower();
+  ]
 }

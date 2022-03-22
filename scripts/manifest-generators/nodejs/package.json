@@ -1,0 +1,16 @@
+{
+  "name": "ro-crate-manifest-generator",
+  "version": "1.0.0",
+  "description": "Example application for generating RO-Crate manifests.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^9.1.0",
+    "mmmagic": "^0.5.3",
+    "uuid": "^8.3.2"
+  }
+}

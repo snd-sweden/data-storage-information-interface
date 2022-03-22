@@ -1,0 +1,1 @@
+cmd_Release/obj.target/magic.node := g++ -o Release/obj.target/magic.node -shared -pthread -rdynamic -m64  -Wl,-soname=magic.node -Wl,--start-group Release/obj.target/magic/src/binding.o Release/obj.target/deps/libmagic/magic.a -Wl,--end-group 

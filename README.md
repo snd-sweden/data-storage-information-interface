@@ -3,9 +3,9 @@ The purpose of this manifest is to integrate the university's research storage w
 
 The manifest for describing the storage manifest and files is based on [ro-cate 1.1](https://www.researchobject.org/ro-crate/1.1/).
 
-### Json schema
+### Json schema for the manifest
 
-[json schema](schema.json)
+[json schema](schema.json) - [documentation](docs/schema/)
 
 ### Example implementations
 

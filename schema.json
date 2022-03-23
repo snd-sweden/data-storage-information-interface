@@ -65,7 +65,8 @@
       "properties": {
         "@id": {
           "type": "string",
-          "description": "Relative file path from dataset root"
+          "description": "Relative file path from dataset root",
+          "example": "directory/data.csv"
         },
         "@type": {
           "type": "string",
@@ -81,7 +82,8 @@
         },
         "encodingFormat": {
           "type": "string",
-          "description": "Media Type, https://schema.org/encodingFormat"
+          "description": "Media Type, https://schema.org/encodingFormat",
+          "example": "text/csv"
         },
         "dateCreated": {
           "type": "string",
@@ -96,7 +98,8 @@
         "url": {
           "type": "string",
           "format": "uri",
-          "description": "URL for the content of the object, https://schema.org/url"
+          "description": "URL for the content of the object, https://schema.org/url",
+          "example": "https://example.com/datasets/42/directory/data.csv"
         }
       },
       "required": ["@id", "@type"]

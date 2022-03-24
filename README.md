@@ -9,8 +9,9 @@ The manifest for describing the storage manifest and files is based on [ro-cate 
 
 ### Example implementations
 
-[Node.js command line client](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/nodejs)
-[Csharp command line client](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/csharp)
+[Node.js command line tool](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/nodejs)
+
+[C# command line tool](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/csharp)
 
 ### Example manifest
 

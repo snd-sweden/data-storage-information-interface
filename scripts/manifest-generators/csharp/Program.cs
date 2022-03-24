@@ -52,7 +52,7 @@ graph.Add(new JsonObject {
             ["identifier"] = new JsonArray(
                 new JsonObject {
                     ["@type"] = "PropertyValue",
-                    ["propertyID"] = "eppn",
+                    ["propertyID"] = "eduPersonPrincipalName",
                     ["propertyValue"] = "xkalle@gu.se" //required: from config/external source
                 }
             )

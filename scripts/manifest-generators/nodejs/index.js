@@ -51,7 +51,7 @@ async function generate() {
         "identifier": [
           {
             "@type": "PropertyValue",
-            "propertyID": "eppn",
+            "propertyID": "eduPersonPrincipalName",
             "propertyValue": program.opts().creatorID //required
           }
         ]

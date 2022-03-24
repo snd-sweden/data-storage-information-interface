@@ -3,18 +3,19 @@
   "$id": "https://github.com/snd-sweden/data-storage-information-interface/schema.json",
   "title": "Research data manifest via ro-crate 1.1",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "@context": {
-      "type": "string",
-      "enum": ["https://w3id.org/ro/crate/1.1/context"],
+      "const": "https://w3id.org/ro/crate/1.1/context",
       "default": "https://w3id.org/ro/crate/1.1/context"
     },
     "@graph": {
       "type": "array",
       "description": "Used to express a rdf graph.",
+      "contains": {
+        "$ref": "#/$defs/manifest"
+      },
       "items": {
-        "anyOf": [
+        "oneOf": [
           {
             "$ref": "#/$defs/manifest"
           },
@@ -23,43 +24,71 @@
           },
           {
             "$ref": "#/$defs/file"
+          },
+          {
+            "$ref": "#/$defs/other"
           }
         ]
       }
     }
   },
   "required": ["@context", "@graph"],
+
   "$defs": {
+
     "manifest": {
       "type": "object",
       "properties": {
         "@id": {
-          "type": "string"
+          "const": "ro-crate-metadata.json"
         },
         "@type": {
-          "type": "string",
-          "enum": ["CreativeWork"]
+          "const": "CreativeWork"
         },
         "identifier":{
           "type": "string",
           "format": "uuid"
+        },
+        "creator": {
+          "$ref": "#/$defs/creator"
+        },
+        "about" : {
+          "type": "object"
+        },
+        "conformsTo" : {
+          "type": "object",
+          "properties": {
+            "@id":  {
+              "const": "https://w3id.org/ro/crate/1.1",
+              "default": "https://w3id.org/ro/crate/1.1"
+            }
+          }
         }
       },
       "required": ["@id", "@type", "identifier"]
     },
+
     "dataset": {
       "type": "object",
       "properties": {
         "@id": {
-          "type": "string"
+          "type": "string",
+          "description": "Relative file path of dataset, should be the string './'",
+          "default": "./"
         },
         "@type": {
-          "type": "string",
-          "enum": ["Dataset"]
+          "const": "Dataset"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hasPart": {
+          "type": "array"
         }
       },
       "required": ["@id", "@type"]
     },
+
     "file": {
       "type": "object",
       "properties": {
@@ -69,8 +98,7 @@
           "example": "directory/data.csv"
         },
         "@type": {
-          "type": "string",
-          "enum": ["File"]
+          "const": "File"
         },
         "contentSize": {
           "type": "integer",
@@ -78,6 +106,7 @@
         },
         "sha256": {
           "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$",
           "description": "Checksum for the file using SHA-256"
         },
         "encodingFormat": {
@@ -103,6 +132,90 @@
         }
       },
       "required": ["@id", "@type"]
+    },
+
+    "other": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "not": {
+            "type": "string",
+            "enum": ["CreativeWork", "Dataset", "File"]
+          }
+        }
+      }
+    },
+
+    "creator": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@type": {
+            "const": "Person"
+          },
+          "@id": {
+            "type": "string",
+            "format": "uri",
+            "description": "ORCID if available"
+          },
+          "identifier": {
+            "type": "array",
+            "contains": {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "const": "PropertyValue"
+                },
+                "propertyID": {
+                  "const": "eduPersonPrincipalName",
+                  "description": "https://wiki.refeds.org/display/STAN/eduPerson+2021-11#eduPerson202111-eduPersonPrincipalName"
+                },
+                "propertyValue": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "required": ["@type", "identifier"]
+    },
+
+    "publisher": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "const": "Organization"
+        },
+        "@id": {
+          "type": "string",
+          "format": "uri",
+          "Description": "ROR ID if available"
+        },
+        "identifier": {
+          "type": "array",
+          "contains": {
+            "type": "object",
+            "properties": {
+              "@type": {
+                "const": "PropertyValue"
+              },
+              "propertyID": {
+                "const": "domain"
+              },
+              "propertyValue": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": ["@type", "identifier"]
     }
   }
 }

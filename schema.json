@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/snd-sweden/data-storage-information-interface/schema.json",
-  "title": "Research data manifest via ro-crate 1.1",
+  "title": "Research data manifest via RO-Crate 1.1",
   "type": "object",
   "properties": {
     "@context": {
@@ -10,7 +10,7 @@
     },
     "@graph": {
       "type": "array",
-      "description": "Used to express a rdf graph.",
+      "description": "Used to express a RDF graph.",
       "contains": {
         "$ref": "#/$defs/manifest"
       },
@@ -32,52 +32,71 @@
       }
     }
   },
-  "required": ["@context", "@graph"],
-
+  "required": [
+    "@context",
+    "@graph"
+  ],
   "$defs": {
-
     "manifest": {
       "type": "object",
       "properties": {
         "@id": {
-          "const": "ro-crate-metadata.json"
+          "const": "ro-crate-metadata.json",
+          "default": "ro-crate-metadata.json"
         },
         "@type": {
-          "const": "CreativeWork"
+          "const": "CreativeWork",
+          "default": "CreativeWork"
         },
-        "identifier":{
+        "identifier": {
           "type": "string",
           "format": "uuid"
         },
         "creator": {
           "$ref": "#/$defs/creator"
         },
-        "about" : {
-          "type": "object"
-        },
-        "conformsTo" : {
+        "about": {
           "type": "object",
           "properties": {
-            "@id":  {
+            "@id": {
+              "type": "string",
+              "const": "./",
+              "default": "./"
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        },
+        "conformsTo": {
+          "type": "object",
+          "properties": {
+            "@id": {
               "const": "https://w3id.org/ro/crate/1.1",
               "default": "https://w3id.org/ro/crate/1.1"
             }
           }
         }
       },
-      "required": ["@id", "@type", "identifier"]
+      "required": [
+        "@id",
+        "@type",
+        "identifier",
+        "about"
+      ]
     },
-
     "dataset": {
       "type": "object",
       "properties": {
         "@id": {
           "type": "string",
           "description": "Relative file path of dataset, should be the string './'",
+          "const": "./",
           "default": "./"
         },
         "@type": {
-          "const": "Dataset"
+          "const": "Dataset",
+          "default": "Dataset"
         },
         "name": {
           "type": "string"
@@ -86,19 +105,24 @@
           "type": "array"
         }
       },
-      "required": ["@id", "@type"]
+      "required": [
+        "@id",
+        "@type"
+      ]
     },
-
     "file": {
       "type": "object",
       "properties": {
         "@id": {
           "type": "string",
           "description": "Relative file path from dataset root",
-          "example": "directory/data.csv"
+          "examples": [
+            "directory/data.csv"
+          ]
         },
         "@type": {
-          "const": "File"
+          "const": "File",
+          "default": "File"
         },
         "contentSize": {
           "type": "integer",
@@ -112,7 +136,9 @@
         "encodingFormat": {
           "type": "string",
           "description": "Media Type, https://schema.org/encodingFormat",
-          "example": "text/csv"
+          "examples": [
+            "text/csv"
+          ]
         },
         "dateCreated": {
           "type": "string",
@@ -128,31 +154,39 @@
           "type": "string",
           "format": "uri",
           "description": "URL for the content of the object, https://schema.org/url",
-          "example": "https://example.com/datasets/42/directory/data.csv"
+          "examples": [
+            "https://example.com/datasets/42/directory/data.csv"
+          ]
         }
       },
-      "required": ["@id", "@type"]
+      "required": [
+        "@id",
+        "@type"
+      ]
     },
-
     "other": {
       "type": "object",
       "properties": {
         "@type": {
           "not": {
             "type": "string",
-            "enum": ["CreativeWork", "Dataset", "File"]
+            "enum": [
+              "CreativeWork",
+              "Dataset",
+              "File"
+            ]
           }
         }
       }
     },
-
     "creator": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
           "@type": {
-            "const": "Person"
+            "const": "Person",
+            "default": "Person"
           },
           "@id": {
             "type": "string",
@@ -165,10 +199,12 @@
               "type": "object",
               "properties": {
                 "@type": {
-                  "const": "PropertyValue"
+                  "const": "PropertyValue",
+                  "default": "PropertyValue"
                 },
                 "propertyID": {
                   "const": "eduPersonPrincipalName",
+                  "default": "eduPersonPrincipalName",
                   "description": "https://wiki.refeds.org/display/STAN/eduPerson+2021-11#eduPerson202111-eduPersonPrincipalName"
                 },
                 "propertyValue": {
@@ -183,19 +219,22 @@
           }
         }
       },
-      "required": ["@type", "identifier"]
+      "required": [
+        "@type",
+        "identifier"
+      ]
     },
-
     "publisher": {
       "type": "object",
       "properties": {
         "@type": {
-          "const": "Organization"
+          "const": "Organization",
+          "default": "Organization"
         },
         "@id": {
           "type": "string",
           "format": "uri",
-          "Description": "ROR ID if available"
+          "description": "ROR ID if available"
         },
         "identifier": {
           "type": "array",
@@ -203,10 +242,12 @@
             "type": "object",
             "properties": {
               "@type": {
-                "const": "PropertyValue"
+                "const": "PropertyValue",
+                "default": "PropertyValue"
               },
               "propertyID": {
-                "const": "domain"
+                "const": "domain",
+                "default": "domain"
               },
               "propertyValue": {
                 "type": "string"
@@ -215,7 +256,10 @@
           }
         }
       },
-      "required": ["@type", "identifier"]
+      "required": [
+        "@type",
+        "identifier"
+      ]
     }
   }
 }

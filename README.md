@@ -1,9 +1,9 @@
 ## About the storage manifest
 The purpose of this manifest is to integrate a local research storage with SND DORIS so that the researchers can easily describe, refer to and publish data without data having to leave the organisation's own storage.
 
-The goal is to have as few required fields as possible and focus on using a ro-crate manifest to describe a set of files connected to an organization (e.g. a University) and a list of researchers (identified by Swamid/eduGAIN identifiers).
+The goal is to have as few required fields as possible and focus on using a RO-Crate manifest to describe a set of files connected to an organisation (e.g. a University) and a list of researchers (identified by Swamid/eduGAIN identifiers).
 
-The manifest for describing the storage manifest and files is based on [ro-crate 1.1](https://www.researchobject.org/ro-crate/1.1/).
+The manifest for describing the storage manifest and files is based on [RO-Crate 1.1](https://www.researchobject.org/ro-crate/1.1/).
 
 ### Json schema for the manifest
 
@@ -14,6 +14,8 @@ The manifest for describing the storage manifest and files is based on [ro-crate
 [Node.js command line tool](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/nodejs)
 
 [C# command line tool](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/csharp)
+
+[Java command line tool](https://github.com/snd-sweden/data-storage-information-interface/tree/master/scripts/manifest-generators/java)
 
 ### Example manifest
 

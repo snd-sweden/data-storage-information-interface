@@ -1,5 +1,5 @@
-# Expample for ro-crate manifest for a directory
+# Example for RO-Crate manifest for a directory
 
-Example csharp script to generate a ro-crate manifest
+Example C# script to generate a RO-Crate manifest.
 
-Expect single argument with relative/full path for directory
+Expects a single argument with relative/full path for directory.

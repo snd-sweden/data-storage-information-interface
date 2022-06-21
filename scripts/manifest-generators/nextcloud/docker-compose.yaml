@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+    nextcloud:
+        image: nextcloud
+        ports:
+        - 8080:80
+        volumes:
+          - ./rocrategenerator:/usr/src/nextcloud/custom_apps/rocrategenerator

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>rocrategenerator</id>
+    <name>Ro Crate Generator (Proof of concept)</name>
+    <summary>RO-Crate generator</summary>
+    <description><![CDATA[RO-Crate generator - example]]></description>
+    <version>example-0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="fabian.samuelsson@snd.gu.se" homepage="http://snd.gu.se">Fabian Samuelsson</author>
+    <namespace>RoCrateGenerator</namespace>
+    <category>integration</category>
+    <bugs>https://github.com/snd-sweden/data-storage-information-interface/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="15" max-version="15"/>
+    </dependencies>
+
+    <settings>
+		<admin>OCA\RoCrateGenerator\Settings\Admin</admin>
+	</settings>
+
+</info>

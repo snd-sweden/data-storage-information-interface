@@ -19,7 +19,9 @@ if (!directory.Exists)
     Environment.Exit(0);
 }
 
-var metadataFileDescriptor = new JsonObject
+var graph = new JsonArray();
+
+graph.Add(new JsonObject
 {
     ["@type"] = "CreativeWork",
     ["@id"] = "ro-crate-metadata.json",
@@ -34,37 +36,61 @@ var metadataFileDescriptor = new JsonObject
     },
     ["publisher"] = new JsonObject
     {
-        ["@type"] = "Organization",
-        ["@id"] = "https://ror.org/01tm6cn81", //optional: from config/external source
-        ["identifier"] = new JsonArray
-        {
-            new JsonObject
-            {
-                ["@type"] = "PropertyValue",
-                ["propertyID"] = "domain",
-                ["propertyValue"] = "gu.se" //required: from config/external source
-            }
-        },
+        ["@id"] = "https://ror.org/01tm6cn81", //Reference to Organization (could also be a local id)
     },
     ["creator"] = new JsonArray
     {
         new JsonObject
         {
-            ["@type"] = "Person",
-            ["@id"] = "https://orcid.org/0000-0003-4908-2169", //optional: from config/external source
-            ["email"] = "example@gu.se",
-            ["identifier"] = new JsonArray
-            {
-                new JsonObject
-                {
-                    ["@type"] = "PropertyValue",
-                    ["propertyID"] = "eduPersonPrincipalName",
-                    ["propertyValue"] = "xkalle@gu.se" //required: from config/external source
-                }
-            }
+            ["@id"] = "https://orcid.org/0000-0003-4908-2169", //reference to person object, (could also be a local id)
         }
     }
-};
+});
+
+graph.Add(new JsonObject
+{
+    ["@type"] = "Organization",
+    ["@id"] = "https://ror.org/01tm6cn81", //using ror-id is optional. Use value from config/external source, could also be local id
+    ["identifier"] = new JsonArray
+    {
+        new JsonObject
+        {
+            ["@id"] = "#domain-0" //reference to PropertyValue holding organisation domain
+        }
+    },
+});
+
+graph.Add(new JsonObject
+{
+    ["@type"] = "PropertyValue",
+    ["@id"] = "#domain-0",
+    ["propertyID"] = "domain",
+    ["value"] = "gu.se" //required: from config/external source
+});
+
+
+graph.Add(new JsonObject
+{
+    ["@type"] = "Person",
+    ["@id"] = "https://orcid.org/0000-0003-4908-2169", //optional: from config/external source (could also be a local id)
+    ["email"] = "example@gu.se", //optional propery
+    ["identifier"] = new JsonArray
+    {
+        new JsonObject
+        {
+            ["@id"] = "#eduPersonPrincipalName-0" //reference to PropertyValue holding edugain id
+        }
+    }
+});
+
+graph.Add(new JsonObject
+{
+    ["@type"] = "PropertyValue",
+    ["@id"] = "#eduPersonPrincipalName-0",
+    ["propertyID"] = "eduPersonPrincipalName",
+    ["value"] = "xkalle@gu.se" //required: from config/external source
+});
+
 
 var hasPart = new JsonArray();
 var files = new JsonArray();
@@ -84,7 +110,7 @@ foreach (var fInfo in directory.EnumerateFiles("*", SearchOption.AllDirectories)
             ["@id"] = id
         });
 
-        files.Add(new JsonObject
+        graph.Add(new JsonObject
         {
             ["@type"] = "File",
             ["@id"] = id,
@@ -105,22 +131,17 @@ foreach (var fInfo in directory.EnumerateFiles("*", SearchOption.AllDirectories)
     }
 }
 
-var rootDataEntity = new JsonObject
+graph.Add(new JsonObject
 {
     ["@type"] = "Dataset",
     ["@id"] = "./",
     ["hasPart"] = hasPart
-};
+});
 
 var roCrate = new JsonObject
 {
     ["@context"] = "https://w3id.org/ro/crate/1.1/context",
-    ["@graph"] = new JsonArray
-    {
-        metadataFileDescriptor,
-        rootDataEntity,
-        files
-    }
+    ["@graph"] = graph
 };
 
 Console.Write(roCrate.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));

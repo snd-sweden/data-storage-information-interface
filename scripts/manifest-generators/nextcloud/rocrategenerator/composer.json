@@ -1,0 +1,10 @@
+{
+    "name": "Ro Crate Generator",
+    "description": "RO-Crate generator",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Fabian Samuelsson"
+        }
+    ]
+}

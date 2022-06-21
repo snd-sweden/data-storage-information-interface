@@ -33,30 +33,48 @@ async function generate() {
       "@id": "./"
     },
     "publisher": {
-      "@type": "Organization",
       "@id":  program.opts().publisherRor, //optional
-      "identifier": [
-        {
-          "@type": "PropertyValue",
-          "propertyID": "domain",
-          "propertyValue": program.opts().publisherDomain //required
-        }
-      ]
     },
     "creator": [
       {
-        "@type": "Person",
         "@id": program.opts().creatorOrcid, //optional
-        "email": "example@gu.se",
-        "identifier": [
-          {
-            "@type": "PropertyValue",
-            "propertyID": "eduPersonPrincipalName",
-            "propertyValue": program.opts().creatorID //required
-          }
-        ]
       }
     ]
+  });
+
+  graph.push({
+    "@type": "Organization",
+    "@id":  program.opts().publisherRor, //optional
+    "identifier": [
+      {
+        "@id": "#domain-0"
+      }
+    ]
+  });
+
+  graph.push({
+    "@type": "PropertyValue",
+    "@id": "#domian-0",
+    "propertyID": "domain",
+    "value": program.opts().publisherDomain //required
+  });
+
+  graph.push({
+    "@type": "Person",
+    "@id": program.opts().creatorOrcid, //optional
+    "email": "example@gu.se",
+    "identifier": [
+      {
+        "@id": "#eduPersonPrincipalName-0"
+      }
+    ]
+  });
+
+  graph.push({
+    "@type": "PropertyValue",
+    "@id": "#eduPersonPrincipalName-0",
+    "propertyID": "eduPersonPrincipalName",
+    "value": program.opts().creatorID //required
   });
 
   var files = await walkDirectory(directory);

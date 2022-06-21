@@ -20,6 +20,15 @@
             "$ref": "#/$defs/manifest"
           },
           {
+            "$ref": "#/$defs/organization"
+          },
+          {
+            "$ref": "#/$defs/person"
+          },
+          {
+            "$ref": "#/$defs/propertyvalue"
+          },
+          {
             "$ref": "#/$defs/dataset"
           },
           {
@@ -52,8 +61,11 @@
           "type": "string",
           "format": "uuid"
         },
+        "publisher": {
+          "type": "object"
+        },
         "creator": {
-          "$ref": "#/$defs/creator"
+          "type": "array"
         },
         "about": {
           "type": "object",
@@ -85,13 +97,112 @@
         "about"
       ]
     },
+    "organization": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "const": "Organization",
+          "default": "Organization"
+        },
+        "@id": {
+          "type": "string",
+          "description": "ROR ID if available"
+        },
+        "identifier": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "identifier"
+      ]
+    },
+    "person": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "const": "Person",
+          "default": "Person"
+        },
+        "@id": {
+          "type": "string",
+          "description": "ORCID if available or local id"
+        },
+        "identifier": {
+          "type": "array",
+          "description": "Reference to PropertyValue object containing eduPersonPrincipalName",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": [
+        "@type",
+        "identifier"
+      ]
+    },
+    "propertyvalue": {
+      "type": "object",
+      "description": "Used to describe key-value pairs for domain and eduPersonPrincipalName",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "const": "PropertyValue",
+          "default": "PropertyValue"
+        },
+        "propertyID": {
+          "type": "string",
+          "examples": [
+            "domain",
+            "eduPersonPrincipalName"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "examples": [
+            "gu.se",
+            "xperson@gu.se"
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "@id",
+        "propertyID",
+        "value"
+      ]
+    },
     "dataset": {
       "type": "object",
       "properties": {
         "@id": {
           "type": "string",
           "description": "Relative file path of dataset, should be the string './'",
-          "const": "./",
           "default": "./"
         },
         "@type": {
@@ -173,93 +284,14 @@
             "enum": [
               "CreativeWork",
               "Dataset",
-              "File"
+              "File",
+              "Person",
+              "Organization",
+              "PropertyValue"
             ]
           }
         }
       }
-    },
-    "creator": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "@type": {
-            "const": "Person",
-            "default": "Person"
-          },
-          "@id": {
-            "type": "string",
-            "format": "uri",
-            "description": "ORCID if available"
-          },
-          "identifier": {
-            "type": "array",
-            "contains": {
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "const": "PropertyValue",
-                  "default": "PropertyValue"
-                },
-                "propertyID": {
-                  "const": "eduPersonPrincipalName",
-                  "default": "eduPersonPrincipalName",
-                  "description": "https://wiki.refeds.org/display/STAN/eduPerson+2021-11#eduPerson202111-eduPersonPrincipalName"
-                },
-                "propertyValue": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "identifier"
-      ]
-    },
-    "publisher": {
-      "type": "object",
-      "properties": {
-        "@type": {
-          "const": "Organization",
-          "default": "Organization"
-        },
-        "@id": {
-          "type": "string",
-          "format": "uri",
-          "description": "ROR ID if available"
-        },
-        "identifier": {
-          "type": "array",
-          "contains": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "const": "PropertyValue",
-                "default": "PropertyValue"
-              },
-              "propertyID": {
-                "const": "domain",
-                "default": "domain"
-              },
-              "propertyValue": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "identifier"
-      ]
     }
   }
 }

@@ -29,7 +29,9 @@ public class Program
             System.exit(0);
         }
 
-        var metadataFileDescriptor = Json.createObjectBuilder()
+        var graph = Json.createArrayBuilder();
+
+        graph.add(Json.createObjectBuilder()
             .add("@type", "CreativeWork")
             .add("@id", "ro-crate-metadata.json")
             .add("identifier", "38d0324a-9fa6-11ec-b909-0242ac120002") //must be persistent
@@ -40,34 +42,51 @@ public class Program
                 .add("@id", "./")
             )
             .add("publisher", Json.createObjectBuilder()
-                .add("@type", "Organization")
-                .add("@id", "https://ror.org/01tm6cn81") //optional: from config/external source
-                .add("identifier", Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder()
-                        .add("@type", "PropertyValue")
-                        .add("propertyID", "domain")
-                        .add("propertyValue", "gu.se") //required: from config/external source
-                    )
-                )
+                .add("@id", "https://ror.org/01tm6cn81") //reference to Organization (could also be a local id)
             ) 
             .add("creator", Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
-                    .add("@type", "Person")
-                    .add("@id", "https://orcid.org/0000-0003-4908-2169") //optional: from config/external source
-                    .add("email", "example@gu.se")
-                    .add("identifier", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
-                            .add("@type", "PropertyValue")
-                            .add("propertyID", "eduPersonPrincipalName")
-                            .add("propertyValue", "xkalle@gu.se")  //required: from config/external source
-                        )
-                    )
+                    .add("@id", "https://orcid.org/0000-0003-4908-2169") //reference to person object, (could also be a local id)
                 )
             )
-            .build();
+        );
+
+        graph.add(Json.createObjectBuilder()
+            .add("@type", "Organization")
+            .add("@id", "https://ror.org/01tm6cn81") //using ROR-id is optional. Use value from config/external source, could also be local id
+            .add("identifier", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("@id", "#domain-0") //reference to PropertyValue holding organisation domain
+                )
+            )
+        );
+
+        graph.add(Json.createObjectBuilder()
+            .add("@type", "PropertyValue")
+            .add("@id", "#domain-0")
+            .add("propertyID", "eduPersonPrincipalName")
+            .add("value", "xkalle@gu.se")  //required: from config/external source
+        );
+
+        graph.add(Json.createObjectBuilder()
+            .add("@type", "Person")
+            .add("@id", "https://orcid.org/0000-0003-4908-2169") //optional: from config/external source (could also be a local id)
+            .add("email", "example@gu.se") //optional propery
+            .add("identifier", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("@id", "#eduPersonPrincipalName-0") //reference to PropertyValue holding edugain id
+                )
+            )
+        );
+
+        graph.add(Json.createObjectBuilder()
+            .add("@type", "PropertyValue")
+            .add("@id", "#eduPersonPrincipalName-0")
+            .add("propertyID", "eduPersonPrincipalName")
+            .add("value", "xkalle@gu.se")  //required: from config/external source
+        );
 
         var hasPart = Json.createArrayBuilder();
-        var files = Json.createArrayBuilder();
         var tika = new Tika();
 
         try (var paths = Files.walk(path)) {
@@ -78,10 +97,9 @@ public class Program
 
                     hasPart.add(Json.createObjectBuilder()
                         .add("@id", id)
-                        .build()
                     );
                 
-                    files.add(Json.createObjectBuilder()
+                    graph.add(Json.createObjectBuilder()
                         .add("@type", "File")
                         .add("@id", id)
                         .add("sha256", DigestUtils.sha256Hex(new FileInputStream(p.toFile())))
@@ -89,7 +107,7 @@ public class Program
                         .add("encodingFormat", tika.detect(p))
                         .add("dateCreated", attributes.lastModifiedTime().toString())
                         .add("dateModified", attributes.creationTime().toString())
-                        .build());
+                    );
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -100,19 +118,15 @@ public class Program
             ex.printStackTrace();
         }
 
-        var rootDataEntity = Json.createObjectBuilder()
+        graph.add(Json.createObjectBuilder()
             .add("@type", "Dataset")
             .add("@id", "./")
             .add("hasPart", hasPart)
-            .build();
+        );
 
         var roCrate = Json.createObjectBuilder()
             .add("@context", "https://w3id.org/ro/crate/1.1/context")
-            .add("@graph", Json.createArrayBuilder()
-                .add(metadataFileDescriptor)
-                .add(rootDataEntity)
-                .add(files)
-            )
+            .add("@graph", graph)
             .build();
         
         var writerFactory = Json.createWriterFactory(Map.of(JsonGenerator.PRETTY_PRINTING, true));

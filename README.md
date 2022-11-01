@@ -44,7 +44,7 @@ This is an overview of the properties supported by SND's RO-Crate profile.
    * @type [Dataset](https://schema.org/Dataset)
    * [name](https://schema.org/name) *optional: provide a name for the dataset*
    * [hasPart](https://schema.org/hasPart)
-      * @type [File](https://schema.org/File)
+      * @type [File](https://www.researchobject.org/ro-crate/1.1/data-entities.html#file-data-entity)
       * @id `example-file.csv` *relative path from dataset root*
       * [contentSize](https://schema.org/contentSize) *optional: size in bytes*
       * [dateCreated](https://schema.org/dateCreated) *optional: created date (ISO 8601)*

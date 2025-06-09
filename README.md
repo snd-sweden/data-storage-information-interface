@@ -69,3 +69,41 @@ To get access to the staging environment for handling the server contact SND.
 2. curl -X POST https://example-index-server.se/ro-crate -H 'Content-Type: application/json' -d @'ro-crate-metadata.json'
 3. For updates post the updated manifest (the identifier in the manifest needs to be identical)
 4. Your files should be listed in DORIS (staging)
+
+## Flow diagrams
+
+```mermaid
+---
+title: Sending file metadata and publishing dataset
+---
+flowchart TD
+    Re[/"👤 Researcher"\]
+    Rv[/"👤 Reviewer"\]
+    S[Local storage]
+    D[Doris]
+    RD[researchdata.se]
+
+    Re-->|1\. Prepare files|S
+    S-->|2\. Send file metadata|D
+    Re-->|3\. Select file metadata|D
+    Re-->|4\. Submit for publishing|Rv
+    Rv-->|5\. Publish|D
+    D-->|6\. Publish metadata|RD
+```
+
+```mermaid
+---
+title: Downloading public file
+---
+flowchart TD
+    RDUser[/"👤 User"\]
+    S[Local storage]
+    RD[researchdata.se]
+
+    RDUser-->|1\. Request file|RD
+    RD-->|2\. Redirect|S
+    S-->|3\. Send file|RDUser
+```
+
+
+
